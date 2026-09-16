@@ -8,14 +8,14 @@ export async function GET(
 ) {
     const { id } = await params;
 
-    const user = await prisma.user.findUnique({
+    const product = await prisma.product.findUnique({
         where: { id: parseInt(id) }
     });
 
-    if (!user)
-        return NextResponse.json({ error: 'User not found' }, { status: 404 });
+    if (!product)
+        return NextResponse.json({ error: 'Product not found' }, { status: 404 });
 
-    return NextResponse.json(user);
+    return NextResponse.json(product);
 }
 
 export async function PUT(
@@ -29,22 +29,22 @@ export async function PUT(
     if (!validation.success)
         return NextResponse.json(validation.error.message, { status: 400 });
 
-    const user = await prisma.user.findUnique({
+    const product = await prisma.product.findUnique({
         where: { id: parseInt(id) }
     });
 
-    if (!user)
-        return NextResponse.json({ error: 'User not found' }, { status: 404 });
+    if (!product)
+        return NextResponse.json({ error: 'Product not found' }, { status: 404 });
 
-    const updatedUser = await prisma.user.update({
+    const updatedProduct = await prisma.product.update({
         where: { id: parseInt(id) },
         data: {
             name: body.name,
-            email: body.email,
+            price: body.price,
         }
     });
 
-    return NextResponse.json(updatedUser);
+    return NextResponse.json(updatedProduct);
 }
 
 export async function DELETE(
@@ -53,14 +53,14 @@ export async function DELETE(
 ) {
     const { id } = await params;
 
-    const user = await prisma.user.findUnique({
+    const product = await prisma.product.findUnique({
         where: { id: parseInt(id) }
     });
 
-    if (!user)
-        return NextResponse.json({ error: 'User not found' }, { status: 404 });
+    if (!product)
+        return NextResponse.json({ error: 'Product not found' }, { status: 404 });
 
-    await prisma.user.delete({
+    await prisma.product.delete({
         where: { id: parseInt(id) }
     });
 
